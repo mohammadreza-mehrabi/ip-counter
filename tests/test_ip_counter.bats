@@ -4,7 +4,7 @@
 # ============================================
 
 setup() {
-    PROJECT_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
+    PROJECT_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
     IP_COUNTER="${PROJECT_ROOT}/bin/ip_counter.sh"
     TEST_LOG="${BATS_TMPDIR}/test_ssh.log"
     TEST_OUTPUT="${BATS_TMPDIR}/test_output.txt"
