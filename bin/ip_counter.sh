@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ============================================
 # ip_counter.sh — SSH failed login analyzer
 # ============================================
