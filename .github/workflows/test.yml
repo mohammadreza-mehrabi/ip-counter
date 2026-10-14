@@ -1,0 +1,43 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Run tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install bats
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y bats shellcheck
+          else
+            brew install bats-core shellcheck
+          fi
+      
+      - name: Run shellcheck (lint)
+        run: |
+          shellcheck bin/ip_counter.sh lib/*.sh
+      
+      - name: Run bats tests
+        run: |
+          bats tests/test_ip_counter.bats
+      
+      - name: Test installation
+        run: |
+          make install PREFIX=/tmp/test-install
+          /tmp/test-install/bin/ip_counter --help
