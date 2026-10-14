@@ -31,7 +31,17 @@ jobs:
             brew install bats-core shellcheck
           fi
       
-      
+      - name: Debug - run script manually
+        run: |
+          echo "=== PWD ==="
+          pwd
+          echo "=== ls bin ==="
+          ls -la bin/
+          echo "=== ls lib ==="
+          ls -la lib/
+          echo "=== Run script ==="
+          ./bin/ip_counter.sh -h
+          echo "Exit code: $?"
       - name: Run bats tests
         run: |
           bats tests/test_ip_counter.bats
