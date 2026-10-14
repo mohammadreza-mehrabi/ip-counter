@@ -20,25 +20,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Install dependencies (Linux)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Install bats
         run: |
           sudo apt-get update
           sudo apt-get install -y bats
-      
-      - name: Install dependencies (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install bash bats-core
-          # Make homebrew bash accessible
-          sudo ln -sf /opt/homebrew/bin/bash /usr/local/bin/bash
-          echo "/usr/local/bin" >> $GITHUB_PATH
-      
-      - name: Check bash version
-        run: |
-          which bash
-          bash --version | head -1
-          /usr/bin/env bash --version | head -1
       
       - name: Run bats tests
         run: |
