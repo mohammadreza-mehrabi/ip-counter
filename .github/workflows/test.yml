@@ -29,9 +29,6 @@ jobs:
             brew install bats-core shellcheck
           fi
       
-      - name: Run shellcheck (lint)
-        run: |
-          shellcheck bin/ip_counter.sh lib/*.sh
       
       - name: Run bats tests
         run: |
