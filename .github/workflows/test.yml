@@ -30,13 +30,15 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           brew install bash bats-core
-          # Use the newly installed bash
-          echo "$(brew --prefix)/bin" >> $GITHUB_PATH
+          # Make homebrew bash accessible
+          sudo ln -sf /opt/homebrew/bin/bash /usr/local/bin/bash
+          echo "/usr/local/bin" >> $GITHUB_PATH
       
       - name: Check bash version
         run: |
           which bash
           bash --version | head -1
+          /usr/bin/env bash --version | head -1
       
       - name: Run bats tests
         run: |
