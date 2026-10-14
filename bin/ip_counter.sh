@@ -11,15 +11,26 @@ set -euo pipefail
 # Locate script and load libraries
 # ============================================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LIB_DIR="${SCRIPT_DIR}/../lib"
-CONFIG_DIR="${SCRIPT_DIR}/../config"
-if [[ ! -d "$LIB_DIR" ]]
-then
-  LIB_DIR="/usr/local/lib/ip-counter"
+
+# Detect lib location (dev vs installed)
+if [[ -f "${SCRIPT_DIR}/../lib/colors.sh" ]]; then
+    # Dev mode: project/lib
+    LIB_DIR="${SCRIPT_DIR}/../lib"
+elif [[ -f "${SCRIPT_DIR}/../lib/ip-counter/colors.sh" ]]; then
+    # Installed mode: PREFIX/lib/ip-counter
+    LIB_DIR="${SCRIPT_DIR}/../lib/ip-counter"
+else
+    # Fallback: system install
+    LIB_DIR="/usr/local/lib/ip-counter"
 fi
-if [[ ! -d "$CONFIG_DIR" ]]
-then
-  CONFIG_DIR="/usr/local/etc/ip-counter"
+
+# Detect config location (dev vs installed)
+if [[ -f "${SCRIPT_DIR}/../config/thresholds.conf" ]]; then
+    CONFIG_DIR="${SCRIPT_DIR}/../config"
+elif [[ -f "${SCRIPT_DIR}/../etc/ip-counter/thresholds.conf" ]]; then
+    CONFIG_DIR="${SCRIPT_DIR}/../etc/ip-counter"
+else
+    CONFIG_DIR="/usr/local/etc/ip-counter"
 fi
 source "${LIB_DIR}/colors.sh"
 source "${LIB_DIR}/logging.sh"
