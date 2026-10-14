@@ -20,28 +20,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Install bats
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            sudo apt-get update
-            sudo apt-get install -y shellcheck
-            git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats-core
-            sudo /tmp/bats-core/install.sh /usr/local
-          else
-            brew install bats-core shellcheck
-          fi
+          sudo apt-get update
+          sudo apt-get install -y bats
       
-      - name: Debug - run script manually
+      - name: Install dependencies (macOS)
+        if: matrix.os == 'macos-latest'
         run: |
-          echo "=== PWD ==="
-          pwd
-          echo "=== ls bin ==="
-          ls -la bin/
-          echo "=== ls lib ==="
-          ls -la lib/
-          echo "=== Run script ==="
-          ./bin/ip_counter.sh -h
-          echo "Exit code: $?"
+          brew install bash bats-core
+          # Use the newly installed bash
+          echo "$(brew --prefix)/bin" >> $GITHUB_PATH
+      
+      - name: Check bash version
+        run: |
+          which bash
+          bash --version | head -1
+      
       - name: Run bats tests
         run: |
           bats tests/test_ip_counter.bats
