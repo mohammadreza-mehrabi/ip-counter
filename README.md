@@ -231,7 +231,7 @@ This project is licensed under the **MIT License** — see [LICENSE](LICENSE) fi
 
 **MohammadReza Mehrabi**
 
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [@mohammadreza-mehrabi](https://github.com/mohammadreza-mehrabi)
 
 ## ⭐ Show your support
 
